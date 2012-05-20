@@ -1,0 +1,119 @@
+// Copyright (c) 2007, Richard Dingwall
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright notice,
+//       this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the organization nor the names of its contributors
+//       may be used to endorse or promote products derived from this software
+//       without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+// POSSIBILITY OF SUCH DAMAGE.
+
+/*! @page StartingAnFtpSession Starting an FTP Session
+
+@section Construction Constructing an FTP session
+
+The @link foofxp::ftp_session::ftp_session ftp_session's constructor @endlink
+accepts two parameters; a pointer to an @link foofxp::ftp_bookmark ftp_bookmark
+@endlink and a flag to indicate whether or not ghost kick should be used. The 
+ghost kick parameter is passed at runtime, because it may be set by the user for 
+an individual session.
+
+@subsection BookmarkReferenceTracking Bookmark reference tracking
+
+A shared pointer to the bookmark is stored by the session. If the user
+deletes the bookmark, the shared pointer's reference counting semantics will 
+keep it in memory while the session is still using it. This will prevent
+segfaults.
+
+@subsection ConnectionConstruction Connection construction
+
+The bookmark's @link foofxp::ftp_bookmark::connection_timeout connection timeout
+property @endlink is passed to the @link foofxp::ftp_connection::ftp_connection
+ftp_connection's constructor @endlink. If the value of the timeout duration
+should change later (i.e. if the user changes it), this change will be caught
+and processed via the bookmark's @link foofxp::bookmark::on_modified on_modified
+@endlink event.
+
+The session is now idle, but not connected.
+
+@section Start Starting an FTP session
+
+A @link foofxp::ftp_tasks::connect connect @endlink task is pushed to the front
+of the session's task queue. 
+
+The connect task takes a copy of the bookmark's @link 
+foofxp::ftp_bookmark::bouncers() bouncers @endlink, @link
+foofxp::ftp_bookmark::auth_mode() auth mode @endlink and @link
+foofxp::ftp_bookmark::ipv6() ipv6 @endlink flag. it is unlikely that these
+settings will change while the session is connecting, and it is unreasonable to
+expect a program to handle such changes.
+
+Because the queue is empty, this task will be executed immediately.
+
+@subsection ConnectExecute Executing the Connect event
+
+The task first checks to see that at least one bouncer exists. If there are
+none, it will throw an exception. 
+
+@subsection Bouncer Trying a bouncer
+
+The connect task will begin resolving each bouncer's host name, limiting results
+to either IPv4 or IPv6 as the bookmark specified. 
+
+After a successful resolve, the connect task will attempt to connect to each of
+the endpoints that have been resolved. If a bouncer cannot be resolved, it tries
+the next one.
+
+A deadline timer is started with each connect event. If the timer runs out or an
+error is encountered, the connect task tries connecting to the next endpoint. If
+no more endpoints exist, it tries the next bouncer.
+
+If no more bouncers exist, an exception is thrown informing the session that all
+bouncers failed.
+
+@subsection OnConnect On connect
+
+Depending on the saved auth mode, an implicit TLS handshake may be performed
+immediately after a connection has been made to an endpoint. If the handshake
+fails, it tries the next bouncer.
+
+The connect task then begins waiting to receive the server's welcome
+message(e.g. <tt>220 FTP server ready</tt>). If the welcome message contains a
+@link foofxp::utility::ftp::reply_codes status code @endlink indicating an
+error, it tries the next bouncer. This behaviour is designed to handle bouncers
+like DiKE which may implement their own error messages.
+
+At this point the session is considered to be connected. If any further errors
+are encountered they will not result in additional connection attempts.
+
+@subsection AuthTlsAndUser Sending AUTH TLS and USER
+
+Again depending on the saved auth mode, a @link foofxp::ftp_tasks::send_auth
+send_auth @endlink task may be enqueued to perform an explicit AUTH TLS/PSBZ 0
+negotiation and handshake (which will chain its own subsequent tasks), or a
+@link foofxp::ftp_tasks::send_user send_user @endlink to send the USER command
+immediately.
+
+Upon a successful reply, the send user task enqueues a
+@link foofxp::ftp_tasks::send_pass send_pass @endlink task. After this, the
+bookmark's auto-perform commands may be executed, and the session is added to
+the idle pool.
+
+*/

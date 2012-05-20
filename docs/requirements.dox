@@ -1,0 +1,60 @@
+// Copyright (c) 2007, Richard Dingwall
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright notice,
+//       this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the organization nor the names of its contributors
+//       may be used to endorse or promote products derived from this software
+//       without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+// POSSIBILITY OF SUCH DAMAGE.
+
+/*! @page Requirements FooFXP Requirements
+
+@section Required
+
+@subsection STL C++ Standard Template Libraries
+
+FooFXP relies heavily on the C++ STL.
+
+@subsection Curses A System V R4-compliant Curses Library
+
+Curses is a library for Unix-like systems, enabling the construction of text user interface (TUI) applications. Both <a href="http://pdcurses.sourceforge.net">PDCurses</a> and <a href="http://www.gnu.org/software/ncurses/ncurses.html">GNU Ncurses</a> have been tested with FooFXP.
+
+@subsection Boost Boost C++ Libraries
+
+The <a href="http://www.boost.org">Boost C++ Libraries</a> are a collection of peer-reviewed, open source libraries that extend the functionality of C++. FooFXP uses the following libraries:
+
+@li Boost Asio, a network programming library.
+@li Boost Test Library, a unit test framework. Note this is only used for unit tests.
+@li Boost Smart Pointers.
+@li Boost Preprocessor, a collection of macros.
+
+FooFXP was built with Boost version 1.35.
+
+@subsection OpenSSL OpenSSL
+
+<a href="http://www.openssl.org">OpenSSL</a> is an open source implementation of the SSL and TLS protocols. OpenSSL is required by Boost Asio for SSL/TLS support.
+
+@section Optional
+
+@subsection Doxygen Doxygen
+<a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> is a code documentation generator which extracts documentation from source file comments. Doxygen is required to build FooFXP's docs.
+
+*/

@@ -1,0 +1,109 @@
+// Copyright (c) 2007, Richard Dingwall
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright notice,
+//       this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the organization nor the names of its contributors
+//       may be used to endorse or promote products derived from this software
+//       without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+// POSSIBILITY OF SUCH DAMAGE.
+
+/// @defgroup utilities Utilities
+/// 
+/// @brief Utilities.
+
+/// @defgroup file_sorting File Sorting
+///
+/// Use these function objects in conjunction with the STL's sort algorithm to 
+/// sort generic collections.
+///
+/// @par Example:
+///
+/// @code
+/// std::vector<file> files;
+/// ...
+/// std::sort(files.begin(), files.end(), file_sorting::by_name_ascending());
+/// @endcode
+///
+/// @ingroup utilities
+
+/// @defgroup exception_handling Exception Handling
+/// 
+/// @brief Exception handling policies.
+///
+/// @li C++ exceptions will be thrown to indicate exceptional conditions,
+/// instead of C-style return value codes or @c errno.
+/// @li Any exceptions thrown from a function must be explicitly declared in its
+/// declaration with the @c throw() clause.
+/// @li STL exceptions will be thrown, rather than defining custom
+/// application-specific exception classes.
+///
+/// This module includes functions which help implement these policies.
+
+/// @defgroup lexical_cast Lexical Casting
+/// 
+/// @brief Methods for casting to and from strings.
+///
+/// These methods are provided as a standardised interface (similar to that of
+/// <a href="http://www.boost.org/libs/conversion/lexical_cast.htm"
+/// >boost::lexical_cast</a>) for casting to and from strings, but use standard 
+/// C functions like std::strtol() and std::sprintf(), not iostreams.
+///
+/// @ingroup utilities
+
+/// @defgroup ftp FTP
+/// 
+/// @brief Methods related to the FTP protocol.
+///
+/// @ingroup utilities
+
+/// @defgroup io I/O
+/// 
+/// @brief Methods related to I/O.
+///
+/// @ingroup utilities
+
+/// @defgroup file_mapper File Mapper
+/// 
+/// @brief Mapping FTP directory lists to files.
+///
+/// @ingroup utilities
+
+/// @defgroup domain Domain Objects
+/// 
+/// @brief Domain classes.
+
+/// @defgroup domain_bookmarks Bookmarks
+/// 
+/// @brief Bookmark classes.
+///
+/// @ingroup domain
+
+/// @defgroup domain_files Files
+/// 
+/// @brief File classes.
+///
+/// @ingroup domain
+
+/// @defgroup domain_sessions Sessions
+/// 
+/// @brief Session classes.
+///
+/// @ingroup domain
