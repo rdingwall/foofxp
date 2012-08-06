@@ -1,8 +1,6 @@
-## FooFXP
-
 **FooFXP** is a text-based FTP client for unix systems. It is written in C++, using [ncurses](http://www.gnu.org/software/ncurses/) and [Boost.Asio](www.boost.org/libs/asio/).
 
-#### Intended Features
+#### Features
 
 * Curses-based text user interface
 * Multiple concurrent sessions and transfers
